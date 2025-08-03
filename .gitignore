@@ -1,0 +1,9 @@
+build/
+.vscode
+*.out
+*.o
+*.so
+*.dll
+*.lua
+*.x
+*.7z
