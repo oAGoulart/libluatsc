@@ -1,5 +1,9 @@
 # libluatsc
 
+[![GitHub Release](https://img.shields.io/github/v/release/oagoulart/libluatsc?color=green)](https://github.com/oAGoulart/libluatsc/releases)
+[![GitHub License](https://img.shields.io/github/license/oagoulart/libluatsc)](https://github.com/oAGoulart/libluatsc/tree/master?tab=MS-RL-1-ov-file)
+[![Static Badge](https://img.shields.io/badge/Lua-5.4-green?logo=lua)](https://www.lua.org/download.html)
+
 Lua 5.4 library to read 64-bit time-stamp counter and `TSC_AUX` value.
 
 > The TSC register can be used by performance-analysis applications, along with the performance
@@ -13,7 +17,7 @@ Supports SSE 2 and if available will, by default:
 
 ## Usage
 
-To build, use `build.sh` script. If on Windows, use MinGW/MSYS2 with `CFLAGS` and `LFLAGS` set to include and library paths, respectively.
+Binaries for AMD64 are available on Releases page. For x86, build with `build.sh` script. If on Windows, use MinGW/MSYS2 with `CFLAGS` and `LFLAGS` set to include and library paths, respectively.
 
 ```sh
 env CFLAGS=-IC:/Users/a_gou/scoop/apps/lua/5.4.7-2/include \
