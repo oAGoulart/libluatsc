@@ -48,3 +48,31 @@ is invariant?   true
 ```
 
 **NOTE:** If the Lua code above fails with `module 'libluatsc' not found` on Windows, add `package.cpath=".\\?.dll"` one line before `require` or change your `LUA_CPATH` environment variable to include `.\\?.dll`.
+
+### Calculating delta time
+
+To find the difference in seconds between two time stamps, you'll need to divide the result of T<sub>end</sub> minus T<sub>begin</sub> by the the processor clock speed.
+
+```lua
+local tsc = require("libluatsc")
+-- from: https://github.com/oAGoulart/libluacrc32
+local crc32 = require("libluacrc32")
+
+local s = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.;/][-=!@#$%&*(){}?:><|"
+for i = 0, 20 do
+  s = s .. s
+end
+
+local begin, baux = tsc.now()
+local res = crc32.calculate(s, "ISCSI")
+local endin, eaux = tsc.now()
+
+-- get "cpu MHz" from "cat /proc/cpuinfo" on Linux (MHz = 1e+6)
+print("delta time:", (endin - begin) / 2096004000, "seconds")
+```
+
+...might output:
+
+```text
+delta time:     0.030666233461387       seconds
+```

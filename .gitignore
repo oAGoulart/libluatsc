@@ -7,3 +7,4 @@ build/
 *.lua
 *.x
 *.7z
+*.Identifier
