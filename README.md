@@ -32,12 +32,12 @@ Then, require and call `now()` to get the counter and `TSC_AUX`. On most systems
 local tsc = require("libluatsc")
 
 local stamp, aux = tsc.now()
-print("stamp: ", stamp, " aux: ", aux)
+print("stamp:", stamp, "aux:", aux)
 
 --[[
   The time stamp counter in newer processors may
   support an enhancement, referred to as invariant TSC ]]--
-print("is invariant? ", tsc.isinvariant())
+print("is invariant?", tsc.isinvariant())
 ```
 
 ...might output:
