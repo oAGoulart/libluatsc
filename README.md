@@ -67,7 +67,10 @@ local begin, baux = tsc.now()
 local res = crc32.calculate(s, "ISCSI")
 local endin, eaux = tsc.now()
 
--- get "cpu MHz" from "cat /proc/cpuinfo" on Linux (MHz = 1e+6)
+--[[
+  On Linux, use: `grep -m1 "cpu MHz" /proc/cpuinfo`
+  This will output something like: "cpu MHz         : 2096.004"
+  Since MHz are 1e+6, we use: 2096004000 ]]--
 print("delta time:", (endin - begin) / 2096004000, "seconds")
 ```
 
