@@ -58,24 +58,27 @@ local tsc = require("libluatsc")
 -- from: https://github.com/oAGoulart/libluacrc32
 local crc32 = require("libluacrc32")
 
-local s = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.;/][-=!@#$%&*(){}?:><|"
-for i = 0, 20 do
-  s = s .. s
-end
+local inp = assert(io.open("1MB.png", "rb"))
+local data = inp:read("*all")
+local dlen = string.len(data)
 
 local begin, baux = tsc.now()
-local res = crc32.calculate(s, "ISCSI")
+local res = crc32.calculate(data, "ISCSI")
 local endin, eaux = tsc.now()
 
 --[[
   On Linux, use: `grep -m1 "cpu MHz" /proc/cpuinfo`
-  This will output something like: "cpu MHz         : 2096.004"
-  Since MHz are 1e+6, we use: 2096004000 ]]--
-print("delta time:", (endin - begin) / 2096004000, "seconds")
+  This will output something like: "cpu MHz         : 2096.004" ]]--
+local deltat = (endin - begin) / 2096.004
+print("delta time:", deltat, "μs", -- (MHz = 1e+6 = microsecond)
+      "\ndata length:", dlen, "bytes",
+      "\nthroughput:", dlen / deltat, "MB/s")
 ```
 
 ...might output:
 
 ```text
-delta time:     0.030666233461387       seconds
+delta time:     200.21097287982 μs
+data length:    1066752 bytes
+throughput:     5328.1395352907 MB/s
 ```
