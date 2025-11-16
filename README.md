@@ -61,15 +61,19 @@ local crc32 = require("libluacrc32")
 local inp = assert(io.open("1MB.png", "rb"))
 local data = inp:read("*all")
 local dlen = string.len(data)
+inp:close()
 
 local begin, baux = tsc.now()
 local res = crc32.calculate(data, "ISCSI")
 local endin, eaux = tsc.now()
 
---[[
-  On Linux, use: `grep -m1 "cpu MHz" /proc/cpuinfo`
-  This will output something like: "cpu MHz         : 2096.004" ]]--
-local deltat = (endin - begin) / 2096.004
+os.execute("grep -m1 \"cpu MHz\" /proc/cpuinfo >> .cpuspd")
+local cs = assert(io.open(".cpuspd", "r"))
+local result = cs:read("*a")
+cs:close()
+local cpuspd = tonumber(result:match("%d+.%d+"))
+
+local deltat = (endin - begin) / cpuspd
 print("delta time:", deltat, "μs", -- (MHz = 1e+6 = microsecond)
       "\ndata length:", dlen, "bytes",
       "\nthroughput:", dlen / deltat, "MB/s")
