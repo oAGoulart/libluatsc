@@ -1,11 +1,14 @@
 build/
-.vscode
+.vscode/
+.venv/
+.cpuspd
 *.out
 *.o
 *.so
 *.dll
-*.lua
+/*.lua
 *.x
 *.7z
 *.Identifier
 *.png
+*.csv
