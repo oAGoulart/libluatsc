@@ -4,8 +4,8 @@ import pandas as pd
 data = pd.read_csv('bm.csv')
 data.columns = data.columns.str.strip()
 
-x_col = 'Size (bytes)'
-y_col = 'Mean time (μs)'
+x_col = 'Size'
+y_col = 'MeanTime'
 group_col = 'Method'
 
 plt.figure(figsize=(10, 6))
@@ -20,11 +20,11 @@ for i, (method_name, group_data) in enumerate(data.groupby(group_col)):
     linestyle='-',
     label=method_name)
 
-plt.title('Performance Benchmark of CRC32 Script')
-plt.xlabel(x_col)
-plt.ylabel(f'{y_col} (Log Scale)')
+plt.title('Elapsed time benchmark for a CRC32 Lua script')
+plt.xlabel('Size (bytes)')
+plt.ylabel('Mean time (μs)')
 
-plt.yscale('log')
+#plt.yscale('log')
 
 plt.grid(True, which="both", ls="--", linewidth=0.5)
 plt.legend(title=group_col, loc='lower right')

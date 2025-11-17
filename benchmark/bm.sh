@@ -5,7 +5,7 @@ REPEATS=10
 RESULTS_FILE="bm.csv"
 PAYLOAD_FILE="bm.data"
 
-echo "Method, Size (bytes), Mean time (μs)" > $RESULTS_FILE
+echo "Method,Size,MeanTime" > $RESULTS_FILE
 
 function create_data()
 {
@@ -13,6 +13,14 @@ function create_data()
   echo "-> Created file of size $1 bytes."
 }
 
+echo "Warming up runs..."
+for SIZE in "${SIZES[@]}"; do
+  create_data "$SIZE"
+
+  echo "For $SIZE bytes file..."
+done
+
+echo "Starting benchmark..."
 for SIZE in "${SIZES[@]}"; do
   create_data "$SIZE"
 
