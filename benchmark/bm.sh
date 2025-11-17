@@ -16,8 +16,6 @@ function create_data()
 echo "Warming up runs..."
 for SIZE in "${SIZES[@]}"; do
   create_data "$SIZE"
-
-  echo "For $SIZE bytes file..."
 done
 
 echo "Starting benchmark..."
@@ -25,14 +23,18 @@ for SIZE in "${SIZES[@]}"; do
   create_data "$SIZE"
 
   TIMES_LUA=""
+  TIMES_TSC=""
   TIMES_PY=""
   TIMES_BASH=""
 
   for i in $(seq 1 $REPEATS); do
     echo "Running for $SIZE bytes ($i/$REPEATS)..."
 
-    TIME=$(lua ./bm.lua $PAYLOAD_FILE)
+    TIME=$(lua ./native.lua $PAYLOAD_FILE)
     TIMES_LUA+=" $TIME"
+
+    TIME=$(lua ./tsc.lua $PAYLOAD_FILE)
+    TIMES_TSC+=" $TIME"
 
     TIME=$(python3 ./bm.py $PAYLOAD_FILE)
     TIMES_PY+=" $TIME"
@@ -45,6 +47,9 @@ for SIZE in "${SIZES[@]}"; do
   done
 
   AVG=$(echo "$TIMES_LUA" | tr ' ' '\n' | awk '{sum+=$1; n+=1} END {print sum/n}')
+  echo "Lua 'clock',$SIZE,$AVG" >> $RESULTS_FILE
+
+  AVG=$(echo "$TIMES_TSC" | tr ' ' '\n' | awk '{sum+=$1; n+=1} END {print sum/n}')
   echo "Lua TSC,$SIZE,$AVG" >> $RESULTS_FILE
 
   AVG=$(echo "$TIMES_PY" | tr ' ' '\n' | awk '{sum+=$1; n+=1} END {print sum/n}')

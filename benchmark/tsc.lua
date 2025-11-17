@@ -4,6 +4,7 @@ local tsc = require("libluatsc")
 local begin, baux = tsc.now()
 dofile("crc32.lua")
 local endin, eaux = tsc.now()
+assert(baux == eaux)
 
 local cs = io.open(".cpuspd", "r")
 if cs == nil then
